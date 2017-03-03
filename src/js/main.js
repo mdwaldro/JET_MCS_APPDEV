@@ -30,6 +30,8 @@ requirejs.config(
     'customElements': 'libs/webcomponents/CustomElements',
     'proj4': 'libs/proj4js/dist/proj4-src',
     'css': 'libs/require-css/css',
+    'mcs': 'mcs/mcs',
+    'mbe':'mcs/mbe'
   }
   //endinjector
   ,
@@ -50,9 +52,9 @@ requirejs.config(
  * by the modules themselves), we are listing them explicitly to get the references to the 'oj' and 'ko'
  * objects in the callback
  */
-require(['ojs/ojcore', 'knockout', 'appController', 'ojs/ojknockout',
+require(['ojs/ojcore', 'knockout', 'appController', 'mbe', 'mcs', 'ojs/ojknockout',
   'ojs/ojmodule', 'ojs/ojrouter', 'ojs/ojnavigationlist', 'ojs/ojbutton'],
-  function (oj, ko, app) { // this callback gets executed when all required modules are loaded
+  function (oj, ko, app, mbe, mcs) { // this callback gets executed when all required modules are loaded
 
     function MainViewModel() {
       var self = this;
@@ -63,6 +65,21 @@ require(['ojs/ojcore', 'knockout', 'appController', 'ojs/ojknockout',
 
       // Sample user data
       self.userName = ko.observable("James");
+
+      mbe.authenticate('logistics', 'Cl0udUs3r',function(statusCode, data){
+        console.log(statusCode, data);
+      }, 
+      function(statusCode, data){
+        console.log(statusCode, data);
+      });
+
+      // mbe.invokeCustomCodeJSONRequest("MobileTwitterMicroservice/MyMobileTwitterResource" , "GET" , null, function(statusCode, data){
+      //   console.log(statusCode, data);
+      // }, 
+      // function(statusCode, data){
+      //   console.log(statusCode, data);
+      // });  
+
     }
 
     $(function() {

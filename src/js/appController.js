@@ -14,7 +14,7 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojrouter', 'ojs/ojarraytabledatasource',
       // Router setup
       self.router = oj.Router.rootInstance;
       self.router.configure({
-       'dashboard': {label: 'Dashboard', isDefault: true},
+       'dashboard': {label: 'Mobile Tweets', isDefault: true},
        'incidents': {label: 'Incidents'},
        'customers': {label: 'Customers'},
        'profile': {label: 'Profile'},
@@ -24,7 +24,7 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojrouter', 'ojs/ojarraytabledatasource',
 
       // Navigation setup
       var navData = [
-      {name: 'Dashboard', id: 'dashboard',
+      {name: 'Tweets', id: 'dashboard',
         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-chart-icon-24'},
       {name: 'Incidents', id: 'incidents',
         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-fire-icon-24'},
@@ -66,6 +66,18 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojrouter', 'ojs/ojarraytabledatasource',
         // See the override.css file to see when the content area is hidden.
         contentElem.classList.add('oj-complete');
       }
+
+      var anonymousToken = mcsConfig.mobileBackends.JET_MCS_APPDEV.authorization.basicAuth.anonymousToken;
+      var mbeId =  mcsConfig.mobileBackends.JET_MCS_APPDEV.authorization.basicAuth.backendId;
+      
+      $.ajaxSetup({
+          headers: {
+            'Authorization': "Basic " + anonymousToken,              
+            'oracle-mobile-backend-id': mbeId, 
+            'Content-Type': "application/json; charset=utf-8"
+          }
+      });
+
     }
 
     return new ControllerViewModel();

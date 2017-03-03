@@ -5,11 +5,15 @@
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery'],
- function(oj, ko, $) {
+define(['ojs/ojcore', 'knockout', 'jquery', 'mcs'],
+ function(oj, ko, $, mcs) {
   
     function DashboardViewModel() {
       var self = this;
+
+      self.tweets = ko.observableArray([]);
+
+
       // Below are a subset of the ViewModel methods invoked by the ojModule binding
       // Please reference the ojModule jsDoc for additionaly available methods.
 
@@ -26,7 +30,19 @@ define(['ojs/ojcore', 'knockout', 'jquery'],
        */
       self.handleActivated = function(info) {
         // Implement if needed
+        self.fetchTweets();
       };
+
+
+      self.fetchTweets = function () {          
+          var baseUrl = mcsConfig.mobileBackends.JET_MCS_APPDEV.baseUrl;
+          var customPath = "/mobile/custom/MobileTwitterMicroservice";
+          var reqUrl =  baseUrl + customPath + "/mymobiletwitterresource";
+          
+          $.getJSON(reqUrl, function(result){              
+              self.tweets(result);                            
+          });
+      }
 
       /**
        * Optional ViewModel method invoked after the View is inserted into the
@@ -65,6 +81,7 @@ define(['ojs/ojcore', 'knockout', 'jquery'],
       self.handleDetached = function(info) {
         // Implement if needed
       };
+      
     }
 
     /*
